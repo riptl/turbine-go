@@ -10,9 +10,6 @@ type Ping struct {
 	Signature [64]byte
 }
 
-const PackedIDPing uint32 = 0x04
-const PacketIDPong uint32 = 0x05
-
 // PingSize is the size of a serialized ping message.
 const PingSize = 128
 
