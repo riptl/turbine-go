@@ -1,12 +1,14 @@
 package gossip
 
+import "golang.org/x/exp/constraints"
+
 type Bloom struct {
 	Keys       []uint64
-	Bits       BitVec
+	Bits       BitVec[uint64]
 	NumBitsSet uint64
 }
 
-type BitVec struct {
-	Bits []uint64 `bin:"optional"`
+type BitVec[T constraints.Unsigned] struct {
+	Bits []T `bin:"optional"`
 	Len  uint64
 }

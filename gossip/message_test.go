@@ -2,13 +2,18 @@ package gossip
 
 import (
 	_ "embed"
+	"net/netip"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-//go:embed tests/pull_request.bin
-var testPullRequest []byte
+var (
+	//go:embed tests/pull_request.bin
+	testPullRequest []byte
+	//go:embed tests/pull_response_contact_info.bin
+	testPullResponseContactInfo []byte
+)
 
 func TestPullRequest_Unmarshal(t *testing.T) {
 	msg, err := UnmarshalMessage(testPullRequest)
@@ -21,7 +26,7 @@ func TestPullRequest_Unmarshal(t *testing.T) {
 					0x7edda0f717d55580,
 					0x221a275bb8650ed4,
 				},
-				Bits: BitVec{
+				Bits: BitVec[uint64]{
 					Bits: make([]uint64, 97),
 					Len:  6168,
 				},
@@ -50,6 +55,48 @@ func TestPullRequest_Unmarshal(t *testing.T) {
 						0xbc, 0xb1, 0x43, 0x0d, 0xed, 0xf7, 0xb6, 0x30,
 					},
 					Wallclock: 1660627129489,
+				},
+			},
+		},
+	}, msg)
+}
+
+func TestPullResponse_ContactInfo_Unmarshal(t *testing.T) {
+	msg, err := UnmarshalMessage(testPullResponseContactInfo)
+	assert.NoError(t, err)
+	assert.Equal(t, &PullResponse{
+		Pubkey: [32]byte{
+			0x7a, 0x1f, 0xe3, 0x85, 0x3f, 0x19, 0xa1, 0xcc, 0x52, 0x82, 0x2c, 0x0d, 0x03, 0x2d, 0x19, 0x16,
+			0xaf, 0x37, 0x50, 0xbb, 0xd8, 0x25, 0x16, 0x3e, 0x46, 0xe2, 0x87, 0x16, 0xde, 0x8e, 0x35, 0x6f,
+		},
+		Values: []Value{
+			{
+				Signature: [64]byte{
+					0x6b, 0x43, 0x11, 0xd0, 0x90, 0x85, 0x22, 0xe1, 0x28, 0xf9, 0xcf, 0xf9, 0x72, 0xaa, 0xfb, 0xa5,
+					0x05, 0x33, 0xdb, 0x3c, 0x85, 0xfa, 0x83, 0x97, 0x22, 0x70, 0xb3, 0xaf, 0x02, 0x7f, 0x1f, 0x3f,
+					0x32, 0xb3, 0xb9, 0x7b, 0x42, 0x81, 0xc7, 0x55, 0x61, 0x43, 0x35, 0x48, 0x08, 0x65, 0x26, 0x1a,
+					0x7b, 0x66, 0xfa, 0x4a, 0x60, 0xc4, 0xc4, 0xb8, 0x8c, 0x5f, 0xae, 0xcb, 0x40, 0x76, 0x7b, 0x03,
+				},
+				Data: DataEnum{
+					DataID: 0,
+					Data: &ContactInfo{
+						ID: [32]byte{
+							0x7a, 0x1f, 0xe3, 0x85, 0x3f, 0x19, 0xa1, 0xcc, 0x52, 0x82, 0x2c, 0x0d, 0x03, 0x2d, 0x19, 0x16,
+							0xaf, 0x37, 0x50, 0xbb, 0xd8, 0x25, 0x16, 0x3e, 0x46, 0xe2, 0x87, 0x16, 0xde, 0x8e, 0x35, 0x6f,
+						},
+						Gossip:       SocketAddr{netip.MustParseAddrPort("127.0.0.1:1024")},
+						TVU:          SocketAddr{netip.MustParseAddrPort("127.0.0.1:1025")},
+						TVUFwd:       SocketAddr{netip.MustParseAddrPort("127.0.0.1:1026")},
+						Repair:       SocketAddr{netip.MustParseAddrPort("127.0.0.1:1031")},
+						TPU:          SocketAddr{netip.MustParseAddrPort("127.0.0.1:1027")},
+						TPUFwd:       SocketAddr{netip.MustParseAddrPort("127.0.0.1:1028")},
+						TPUVote:      SocketAddr{netip.MustParseAddrPort("127.0.0.1:1029")},
+						RPC:          SocketAddr{netip.MustParseAddrPort("127.0.0.1:8899")},
+						RPCPubSub:    SocketAddr{netip.MustParseAddrPort("127.0.0.1:8900")},
+						ServeRepair:  SocketAddr{netip.MustParseAddrPort("127.0.0.1:1032")},
+						Wallclock:    1660658416429,
+						ShredVersion: 25514,
+					},
 				},
 			},
 		},

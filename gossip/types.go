@@ -60,3 +60,38 @@ func (s *SocketAddr) MarshalWithEncoder(e *bin.Encoder) (err error) {
 	}
 	return e.WriteUint16(s.Port(), bin.LE)
 }
+
+const (
+	SlotsVecIDFlate2 = uint32(iota) // TODO rename, "flate2" is a crate, not a compression format
+	SlotsVecIDUncompressed
+)
+
+type SlotsVec interface {
+	SlotsVecID() uint32
+}
+
+type SlotsVecEnum struct {
+	SlotsVecID uint32
+	SlotsVec
+}
+
+type SlotsVecFlate2 struct {
+	FirstSlot  uint64
+	Num        uint64
+	Compressed []byte
+}
+
+func (s *SlotsVecFlate2) SlotsVecID() uint32 {
+	return SlotsVecIDFlate2
+}
+
+type SlotsVecUncompressed struct {
+	FirstSlot uint64
+	Num       uint64
+	Slots     BitVec[uint8]
+}
+
+type HashEvent struct {
+	Slot uint64
+	Hash [32]byte
+}

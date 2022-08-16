@@ -1,7 +1,8 @@
 Research implementation of various Solana P2P protocols
 
 
-LETS FUCKING GOOOOOOOOOOOOOOOOOOOOO
+<details>
+<summary>Flashy Colors</summary>
 
 - https://soundcloud.com/dumdumdubs/subfiltronik-passout-ft-skullion-shadez-dum-dum-remix-vip-4-flip
 - https://soundcloud.com/dumdumdubs/subfiltronik-passout-ft-skullion-shadez-dum-dum-remix-vip-4-flip
@@ -17,3 +18,5 @@ LETS FUCKING GOOOOOOOOOOOOOOOOOOOOO
 - https://soundcloud.com/kronomikaltwo/new
 - https://soundcloud.com/vyle_so_vile/dirty
 - https://soundcloud.com/thierry-estev/ghost
+
+</details>

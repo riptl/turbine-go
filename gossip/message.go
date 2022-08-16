@@ -31,6 +31,16 @@ func (m *MessageEnum) UnmarshalWithDecoder(dec *bin.Decoder) (err error) {
 	switch m.MsgID {
 	case MsgIDPullRequest:
 		m.Message = new(PullRequest)
+	case MsgIDPullResponse:
+		m.Message = new(PullResponse)
+	case MsgIDPush:
+		m.Message = new(PushMessage)
+	case MsgIDPrune:
+		m.Message = new(PruneMessage)
+	case MsgIDPing:
+		m.Message = new(PingMessage)
+	case MsgIDPong:
+		m.Message = new(PongMessage)
 	default:
 		return fmt.Errorf("unsupported message type %#x", m.MsgID)
 	}
@@ -52,6 +62,53 @@ type PullRequest struct {
 	Value
 }
 
-func (p *PullRequest) MsgID() uint32 {
+func (*PullRequest) MsgID() uint32 {
 	return MsgIDPullRequest
+}
+
+type PullResponse struct {
+	Pubkey [32]byte
+	Values []Value
+}
+
+func (*PullResponse) MsgID() uint32 {
+	return MsgIDPullResponse
+}
+
+type PushMessage struct {
+	Pubkey [32]byte
+	Values []Value
+}
+
+func (*PushMessage) MsgID() uint32 {
+	return MsgIDPush
+}
+
+type PruneMessage struct {
+	Pubkey0     [32]byte
+	Pubkey1     [32]byte
+	Prunes      [][32]byte
+	Signature   [64]byte
+	Destination [32]byte
+	Wallclock   uint64
+}
+
+func (*PruneMessage) MsgID() uint32 {
+	return MsgIDPrune
+}
+
+type PingMessage struct {
+	Ping
+}
+
+func (*PingMessage) MsgID() uint32 {
+	return MsgIDPing
+}
+
+type PongMessage struct {
+	Ping
+}
+
+func (*PongMessage) MsgID() uint32 {
+	return MsgIDPong
 }
