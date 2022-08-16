@@ -48,6 +48,26 @@ func (d *DataEnum) UnmarshalWithDecoder(dec *bin.Decoder) (err error) {
 	switch d.DataID {
 	case DataIDContactInfo:
 		d.Data = new(ContactInfo)
+	case DataIDVote:
+		d.Data = new(VoteData)
+	case DataIDLowestSlot:
+		d.Data = new(LowestSlotData)
+	case DataIDSnapshotHashes:
+		d.Data = new(SnapshotHashes)
+	case DataIDAccountsHashes:
+		d.Data = new(AccountsHashes)
+	case DataIDEpochSlots:
+		d.Data = new(EpochSlots)
+	case DataIDLegacyVersion:
+		d.Data = new(LegacyVersion)
+	case DataIDVersion:
+		d.Data = new(Version)
+	case DataIDNodeInstance:
+		d.Data = new(NodeInstance)
+	case DataIDDuplicateShred:
+		d.Data = new(DuplicateShredData)
+	case DataIDIncrementalSnapshotHashes:
+		d.Data = new(IncrementalSnapshotHashes)
 	default:
 		return fmt.Errorf("unsupported data type %#x", d.DataID)
 	}
