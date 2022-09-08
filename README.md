@@ -1,3 +1,9 @@
+## ARCHIVED
+
+This project has moved to https://github.com/certusone/radiance/tree/main/pkg/gossip
+
+----------------
+
 Research implementation of various Solana P2P protocols
 
 
